@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once('DB_conncection.php');
+require_once('DB_connection.php');
 
 if(isset($_POST['delete_product']) && isset($_POST['id'])) {
     $id = $_POST['id'];
 
-    $stmt = $conn->prepare("DELETE FROM product WHERE id =?");
+    $stmt = $conn->prepare("DELETE FROM products WHERE id =?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
@@ -18,6 +18,6 @@ if(isset($_POST['delete_product']) && isset($_POST['id'])) {
     $stmt->close();
     $stmt->close();
 
-    header('Location: ../pages/kasir/manage_producy.php');
+    header('Location: ../pages/kasir/manage_product.php');
     exit;
 }

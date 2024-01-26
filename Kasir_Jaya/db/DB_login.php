@@ -2,27 +2,27 @@
 session_start();
 require_once('DB_connection.php');
 
-if ($_SERVER["REQUEST_METHOD"] =="POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if(isset($_POST['add_product'])){
+    $nama_produk = $_POST['nama_produk'];
+    $harga_produk = $_POST['harga_produk'];
+    $jumlah = $_POST['jumlah'];
 
-    $sql = "SELECT * FROM users where username = ? AND password = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
+    // Use openssl_random_pseudo_bytes for PHP versions earlier than 7
+    $kode_unik = bin2hex(openssl_random_pseudo_bytes(5));
+
+    $stmt = $conn->prepare("INSERT INTO products (nama_produk, harga_produk, jumlah, kode_unik) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param('siis', $nama_produk, $harga_produk, $jumlah, $kode_unik);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
 
-    if ($user) {
-        $_SESSION['logggedin'] = true;
-        $_SESSION['nama'] = $user['nama'];
-        $_SESSION['username'] = $username;
-        $_SESSION['user_id'] = $user['id'];
-
-        header("location: ./pages/dashboard.php");
-     } else {
-        echo "Invalid username or password.";
-
+    if($stmt->affected_rows > 0){
+        echo "Product added successfully";
+    } else {
+        echo "Failed to add product. Error: " . $stmt->error;
     }
-} 
+
+    $stmt->close();
+    $conn->close();
+    header('Location: ../pages/kasir/manage_product.php');
+    exit;
+}
 ?>

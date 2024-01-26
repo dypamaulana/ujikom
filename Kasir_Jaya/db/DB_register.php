@@ -12,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      if ($check_result && mysqli_num_rows($check_result ) > 0 ) {
         $error_message = "username already exists. pleasy choose a different username.";
       } else {
-        $insert_query = "INSERT INTO users (username, password, nama) VALUES ( $username', '$password','$nama')";
+        $insert_query = "INSERT INTO users (username, password, nama) VALUES ( '$username', '$password','$nama')";
         $insert_result = mysqli_query($conn, $insert_query);
-        if ($insert_query) {
+        if ($insert_result) {
             header("Location: ../index.php");
             exit();
          } else {

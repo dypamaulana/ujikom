@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true) {
     header('location: ../index.php');
     exit;
 }
-$realname = $_SESSION['nama'];
+$realName = $_SESSION['nama'];
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ $realname = $_SESSION['nama'];
     <link rel="stylesheet" href="../assets/style/dashbord.css">
 </head>
 <body>
-    <h1>hello, <?php echo htmlspecialchars($realname); ?>! Welcome to dashboard</h1>
+    <h1>hello, <?php echo htmlspecialchars($realName); ?>! Welcome to dashboard</h1>
     <form action="../db/DB_logout.php" method="post">
         <button type="submit" class="btn-logout">Logout</button>
 </form>
